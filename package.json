@@ -48,6 +48,9 @@
       ],
       "@core/*": [
         "src/core/*"
+      ],
+      "@shared/*": [
+        "src/shared/*"
       ]
     }
   },
@@ -72,7 +75,8 @@
   },
   "_moduleAliases": {
     "@auth": "src/auth",
-    "@core": "src/core"
+    "@core": "src/core",
+    "@shared": "src/shared"
   },
   "eslintConfig": {
     "parserOptions": {

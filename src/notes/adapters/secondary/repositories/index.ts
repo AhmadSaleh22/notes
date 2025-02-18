@@ -4,7 +4,6 @@ import { NotesRepositoryAdapter } from './notes_respository.adapter'
 const notesRepositoryAdapter = new NotesRepositoryAdapter()
 
 const noteAddOutputPort: NoteAddOutputPort = notesRepositoryAdapter
-// const noteDeleteOutpotPort:
 
 export {
   noteAddOutputPort

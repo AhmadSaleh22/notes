@@ -8,8 +8,8 @@ export class NoteEditUseCase implements NoteEditInput {
     private readonly port: NoteAddOutputPort
   ) {}
 
-  async exec (data: NoteEditRequestModel): Promise<NoteEditResponseModel> {
-    await this.port.updateNote(data)
+  async exec (noteId: string, data: NoteEditRequestModel): Promise<NoteEditResponseModel> {
+    await this.port.updateNote(noteId, data)
 
     return {
       id: '',

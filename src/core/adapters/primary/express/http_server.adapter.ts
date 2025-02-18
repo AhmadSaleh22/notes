@@ -18,9 +18,13 @@ export class HttpServerAdapter {
   }
 
   public async start (serverPort: number): Promise<void> {
+    // forwarding requests to other services
     setupProxy(this.app)
+    // to add the logging, CORS, body parsing
     setupGlobalMiddleware(this.app)
+    // Registers routes and their handlers
     setupRoutes(this.app, this.controllers)
+    // error handling, response formatting
     setupResponseMiddleware(this.app)
     this.app.listen(serverPort, () => {
       console.log(`Server running on port ${serverPort}`)

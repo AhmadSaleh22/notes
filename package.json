@@ -21,8 +21,10 @@
     "url": "https://github.com/AhmadSaleh22/notes/issues"
   },
   "dependencies": {
+    "commander": "^13.1.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
+    "figlet": "^1.8.0",
     "helmet": "^8.0.0",
     "joi": "^17.13.3",
     "module-alias": "^2.2.3",

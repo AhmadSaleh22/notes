@@ -4,5 +4,5 @@ import { NoteEditResponseModel } from 'src/notes/models/response/inputedit.respo
 export interface NoteEditInput {
   name?: string
   description?: string
-  exec: (data: NoteEditRequestModel) => Promise<NoteEditResponseModel>
+  exec: (noteId: string, data: NoteEditRequestModel) => Promise<NoteEditResponseModel>
 }

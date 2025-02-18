@@ -14,4 +14,6 @@ async function main (): Promise<void> {
     controller: noteRouter
   })
   await httpServer.start(8900)
+
+  // const cli
 }

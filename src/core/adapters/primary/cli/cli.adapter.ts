@@ -16,9 +16,15 @@ export class CLIAdapter {
   public async start (argv: string[] = process.argv): Promise<void> {
     this.commands.forEach((cmd) => {
       this.program
-        .command(cmd.name)
-        .description(cmd.description !== null && cmd.description !== undefined ? cmd.description : '') // Explicit check
-        .action(cmd.exec)
+        .command(cmd.command)
+        .description(cmd.content ?? '')
+        .action(async (...args: any[]) => {
+          try {
+            await cmd.exec(...args)
+          } catch (error) {
+            console.error(`Error executing command "${cmd.command}":`, error)
+          }
+        })
     })
 
     this.program.parse(argv)

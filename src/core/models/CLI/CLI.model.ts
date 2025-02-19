@@ -1,5 +1,4 @@
-export interface CLICommandsModel {
-  name: string
-  description?: string
-  exec: (...args: any[]) => void
+export interface CLICommandsModel<Command = string, Content extends Record<string, string> = Record<string, string>> {
+  command: Command
+  content: Content
 }

@@ -17,6 +17,8 @@ export const noteAddFactory = () => {
     presenter
   )
 
+  // Add other controllers like => delete, edit, view.
+
   return {
     noteAddController
   }

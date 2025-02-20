@@ -6,7 +6,7 @@ import { HttpErrorAdapter } from '../errors/http_error.adapter'
 export function expressRouteAdapter<T> (controller: ControllerInputPort<T>) {
   return async (request: Request, _response: Response, next: NextFunction) => {
     return await Promise.resolve(
-      controller.handleRequest({
+      controller.handleRequest?.({
         body: request.body,
         params: request.params,
         query: request.query,

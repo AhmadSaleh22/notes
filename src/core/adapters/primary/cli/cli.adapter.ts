@@ -17,10 +17,11 @@ export class CLIAdapter {
     this.commands.forEach((cmd) => {
       this.program
         .command(cmd.command)
-        .description(cmd.content ?? '')
+        .description(cmd.content.title.concat(cmd.content.content) ?? '')
         .action(async (...args: any[]) => {
           try {
-            await cmd.exec(...args)
+            // await
+            console.log('argsssss', args)
           } catch (error) {
             console.error(`Error executing command "${cmd.command}":`, error)
           }

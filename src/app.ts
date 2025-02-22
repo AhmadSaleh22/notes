@@ -14,6 +14,7 @@ async function main (): Promise<void> {
     path: '/note',
     controller: noteRouter
   })
+  // httpServer.dee
   await httpServer.start(8900)
 
   cli.addCommand({

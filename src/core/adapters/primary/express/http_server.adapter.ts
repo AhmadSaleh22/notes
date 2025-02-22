@@ -6,7 +6,7 @@ import { APIModel } from '@core/models/api/api.model'
 import express, { Express } from 'express'
 
 export class HttpServerAdapter {
-  private readonly app: Express
+  private readonly app: Express // || Hono
   private readonly controllers: APIModel[] = []
 
   constructor () {

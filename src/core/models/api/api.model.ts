@@ -2,5 +2,6 @@ import { Router } from 'express'
 
 export interface APIModel {
   path: string
-  controller: Router
+  controller: Router// || RouterHono
+  // db
 }

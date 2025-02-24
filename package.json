@@ -47,14 +47,14 @@
     "rootDir": "./src",
     "baseUrl": ".",
     "paths": {
-      "@auth/*": [
-        "src/auth/*"
-      ],
       "@core/*": [
         "src/core/*"
       ],
-      "@shared/*": [
-        "src/shared/*"
+      "@driven/*": [
+        "src/driven-adapter/*"
+      ],
+      "@driver/*": [
+        "src/driver-adapter/*"
       ]
     }
   },

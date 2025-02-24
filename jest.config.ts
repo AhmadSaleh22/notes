@@ -1,7 +1,7 @@
 export default {
   moduleNameMapper: {
     '^@core/(.*)$': '<rootDir>/src/core/$1',
-    '^@auth/(.*)$': '<rootDir>/src/auth/$1',
-    '^@shared/(.*)$': '<rootDir>/src/shared/$1'
+    '^@driven/(.*)$': '<rootDir>/src/driven-adapter/$1',
+    '^@driver/(.*)$': '<rootDir>/src/driver-adapter/$1'
   }
 }

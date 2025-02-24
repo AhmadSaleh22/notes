@@ -6,9 +6,9 @@
         "module": "commonjs",
         "baseUrl": ".",
         "paths": {
-            "@auth/*": ["src/auth/*"],
+            "@driven/*": ["src/driven-adapter/*"],
             "@core/*": ["src/core/*"],
-            "@shared/*": ["src/shared/*"]
+            "@driver/*": ["src/driver-adapter/*"]
         },
         "resolveJsonModule": true,
         "declaration": true,

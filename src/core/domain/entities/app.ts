@@ -18,6 +18,11 @@ interface App {
     content: string
     title: string
   }) => Promise<Note>
+  getNoteById: ({
+    id
+  }: {
+    id: string
+  }) => Promise<Note>
   deleteNote: ({
     id
   }: {

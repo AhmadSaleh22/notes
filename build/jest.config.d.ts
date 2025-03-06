@@ -1,7 +1,8 @@
 declare const _default: {
     moduleNameMapper: {
         '^@core/(.*)$': string;
-        '^@auth/(.*)$': string;
+        '^@driven/(.*)$': string;
+        '^@driver/(.*)$': string;
     };
 };
 export default _default;

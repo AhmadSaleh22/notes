@@ -1,27 +1,19 @@
-import { App } from './domain/entities/app'
-import { DataStorage } from './driven-port/store/storage'
-import { queryGetNotes } from './queries/getNotes'
-import { createNoteUseCase } from './usecases/addNote'
-import { deleteNoteUsecase } from './usecases/deleteNote'
-import { updateNoteuseCase } from './usecases/updateNote'
-
-type GetApp = ({
-  dataStore
-}: {
-  dataStore: DataStorage
-}) => App
-
-const getApp: GetApp = ({
-  dataStore
-}) => {
+'use strict'
+Object.defineProperty(exports, '__esModule', { value: true })
+exports.getApp = void 0
+const getNotes_1 = require('./queries/getNotes')
+const addNote_1 = require('./usecases/addNote')
+const deleteNote_1 = require('./usecases/deleteNote')
+const updateNote_1 = require('./usecases/updateNote')
+const getApp = ({ dataStore }) => {
   return {
     getNotes: async () => {
-      const query = queryGetNotes(dataStore)
+      const query = (0, getNotes_1.queryGetNotes)(dataStore)
       const notes = await query()
       return notes
     },
     getNoteById: async ({ id }) => {
-      const query = queryGetNotes(dataStore)
+      const query = (0, getNotes_1.queryGetNotes)(dataStore)
       const notes = await query()
       const note = notes.find((note) => note.id === id)
       if (note == null) {
@@ -30,7 +22,7 @@ const getApp: GetApp = ({
       return note
     },
     createNote: async ({ title, content }) => {
-      const useCase = createNoteUseCase(dataStore)
+      const useCase = (0, addNote_1.createNoteUseCase)(dataStore)
       const noteCreated = await useCase({
         title,
         content
@@ -38,7 +30,7 @@ const getApp: GetApp = ({
       return noteCreated
     },
     deleteNote: async ({ id }) => {
-      const useCase = deleteNoteUsecase(dataStore)
+      const useCase = (0, deleteNote_1.deleteNoteUsecase)(dataStore)
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const deletedNote = await useCase({
         id
@@ -47,7 +39,7 @@ const getApp: GetApp = ({
       return
     },
     updateNote: async ({ id, content, title }) => {
-      const useCase = updateNoteuseCase(dataStore)
+      const useCase = (0, updateNote_1.updateNoteuseCase)(dataStore)
       const updatedNote = await useCase({
         id,
         content,
@@ -57,5 +49,4 @@ const getApp: GetApp = ({
     }
   }
 }
-
-export { getApp }
+exports.getApp = getApp

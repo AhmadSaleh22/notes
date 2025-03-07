@@ -1,28 +1,44 @@
-import 'reflect-metadata'
-import 'source-map-support/register'
-import 'module-alias/register'
-import { HttpServerAdapter } from '@core/adapters/primary/express/http_server.adapter'
-import noteRouter from './notes/routes/note.router'
-import { CLIAdapter } from '@core/adapters/primary/cli/cli.adapter'
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+import { getApp } from './core'
+import { getHttpExpress } from './driver-adapter/http'
+import { getDataStorage } from './driven-adapter/database/sql'
+import { getSecretStoreEnv } from './core/driven-port/SecretStore'
+import { getConfigs } from './driven-adapter/config'
 
-void main()
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+async function startServer () {
+  try {
+    // Load configurations
+    const config = getConfigs()
+    const secretStore = getSecretStoreEnv()
 
-async function main (): Promise<void> {
-  const httpServer = new HttpServerAdapter()
-  const cli = new CLIAdapter()
-  httpServer.addController({
-    path: '/note',
-    controller: noteRouter
-  })
-  // httpServer.dee
-  await httpServer.start(8900)
+    // Initialize data store (async)
+    const dataStore = await getDataStorage({
+      config: config.dataStore,
+      secretStore
+    })
 
-  cli.addCommand({
-    command: 'greet',
-    content: {
-      title: 'ahmad saleh',
-      content: 'ahmad saleh'
+    // Create the application instance
+    const app = getApp({ dataStore })
+
+    // Initialize the HTTP server
+    getHttpExpress({ app, config: config.http })
+
+    // ✅ Fix: Ensure `PORT` is a valid number
+    const PORT = config.http.port ? parseInt(config.http.port, 10) : 3000
+
+    if (isNaN(PORT) || PORT < 0 || PORT > 65535) {
+      throw new Error(`Invalid PORT value: "${config.http.port}". Please check your configuration.`)
     }
-  })
-  await cli.start()
+
+    // expresServer.server.listen(PORT, () => {
+    //   console.log(`✅ Server is running on http://localhost:${PORT}`)
+    // })
+  } catch (error) {
+    console.error('❌ Failed to start the server:', error)
+    process.exit(1)
+  }
 }
+
+// Run the server startup function
+void startServer()

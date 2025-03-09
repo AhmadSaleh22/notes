@@ -1,7 +1,7 @@
 import express from 'express'
 import http from 'http'
 
-type GetExpressOpenApiServer = ({
+type GetExpressServer = ({
   app,
   port
 }: {
@@ -9,7 +9,7 @@ type GetExpressOpenApiServer = ({
   port: number
 }) => http.Server
 
-const getExpressOpenApiServer: GetExpressOpenApiServer = ({ app, port }) => {
+const getExpressServer: GetExpressServer = ({ app, port }) => {
   const server = app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`)
   })
@@ -17,4 +17,4 @@ const getExpressOpenApiServer: GetExpressOpenApiServer = ({ app, port }) => {
   return server
 }
 
-export { getExpressOpenApiServer }
+export { getExpressServer }

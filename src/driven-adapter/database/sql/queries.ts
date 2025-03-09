@@ -29,7 +29,7 @@ type GetNoteByIdQuery = ({ id }: { id: Note['id'] }) => QueryOptions
 
 const getAllNotes: GetAllNotesQuery = () => {
   return {
-    name: 'ahmad-saleh', // actions
+    name: 'ahmad-saleh', // actions PUB/SUB
     sql: `
       SELECT * FROM notes
     `,

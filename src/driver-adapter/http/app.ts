@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction, Router } from 'express'
 import cookieParser from 'cookie-parser'
 import { body, param, validationResult } from 'express-validator'
-import { App } from '@core/domain/entities/app.js'
+import { App } from '@core/domain/entities/app'
 import { rateLimitMiddleware } from './middleware'
 
 const apiClientServers = [

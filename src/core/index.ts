@@ -4,15 +4,20 @@ import { queryGetNotes } from './queries/getNotes'
 import { createNoteUseCase } from './usecases/addNote'
 import { deleteNoteUsecase } from './usecases/deleteNote'
 import { updateNoteuseCase } from './usecases/updateNote'
+import noteCreatedEvent from './domain/helpers/events/NoteCreatedEvent'
+import { EventBroker } from './driven-port/event-broker-core'
 
 type GetApp = ({
-  dataStore
+  dataStore,
+  eventBroker
 }: {
   dataStore: DataStorage
+  eventBroker: EventBroker
 }) => App
 
 const getApp: GetApp = ({
-  dataStore
+  dataStore,
+  eventBroker
 }) => {
   return {
     getNotes: async () => {
@@ -35,6 +40,13 @@ const getApp: GetApp = ({
         title,
         content
       })
+      const event = noteCreatedEvent({
+        note: noteCreated,
+        subject: 'note.created',
+        source: 'notes-app'
+      })
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      eventBroker.publish(event)
       return noteCreated
     },
     deleteNote: async ({ id }) => {

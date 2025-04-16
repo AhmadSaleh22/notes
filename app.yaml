@@ -1,0 +1,5 @@
+runtime: nodejs16
+service: subscriber-service
+env_variables:
+  PUBSUB_TOPIC: "note-id-ahmad-1"
+  PUBSUB_VERIFICATION_TOKEN: "4F7MMLX9OJLlShnG+7N0+EP9IZZWzBuSfFH7afAz39A="

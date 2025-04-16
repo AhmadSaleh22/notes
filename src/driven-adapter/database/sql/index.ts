@@ -3,7 +3,15 @@ import { DataStorage, StoredNote } from '@core/driven-port/store/storage'
 import { SecretStore } from '@core/driven-port/SecretStore/secret-store'
 import { migrate } from './migrate'
 import { getSQLPool } from './pool'
-import { deleteNoteQuery, getAllNotes, getNoteByIdQuery, saveNotesQuery, updateNoteQuery } from './queries'
+import {
+  deleteNoteQuery,
+  getAllNotes,
+  getNoteByIdQuery,
+  saveNotesQuery,
+  updateNoteQuery
+} from './queries'
+
+import crypto from 'crypto'
 
 type GetDataStorage = ({
   config,
@@ -19,56 +27,77 @@ const getDataStorage: GetDataStorage = async ({
 }) => {
   const sqlpool = getSQLPool({ config, secretStore })
   await migrate({ mysqlPool: sqlpool })
+
   return {
     getAllNotes: async () => {
       try {
-        const result = await sqlpool.query(getAllNotes())
-        return result as unknown as StoredNote[]
+        const { sql, values } = getAllNotes()
+        const [rows] = await sqlpool.query(sql, values)
+        return rows as StoredNote[]
       } catch (error) {
         console.error('Error fetching all notes:', error)
         throw error
       }
     },
+
     createNote: async ({ content, title }) => {
       try {
-        const id = JSON.stringify(Math.random())
-        const result = await sqlpool.query(saveNotesQuery({ content, title, id }))
-        const createdNote = result as unknown as StoredNote
-        return createdNote
+        const id = crypto.randomUUID()
+        const createdAt = new Date()
+        const { sql, values } = saveNotesQuery({ content, title, id, createdAt })
+        await sqlpool.query(sql, values)
+
+        return {
+          id,
+          title,
+          content,
+          createdAt
+        }
       } catch (error) {
         console.error('Error creating note:', error)
         throw error
       }
     },
+
     updateNote: async ({ id, content, title }) => {
       try {
-        const result = await sqlpool.query(updateNoteQuery({ id, title, content }))
-        const updatedNote = result as unknown as StoredNote
-        return updatedNote
+        const { sql, values } = updateNoteQuery({ id, title, content })
+        await sqlpool.query(sql, values)
+
+        return {
+          id,
+          title,
+          content
+        } satisfies StoredNote
       } catch (error) {
         console.error('Error updating note:', error)
         throw error
       }
     },
+
     deleteNote: async ({ id }) => {
       try {
-        const result = await sqlpool.query(deleteNoteQuery({ id }))
-        const deletedNote = result as unknown as StoredNote
-        return deletedNote
+        const { sql, values } = deleteNoteQuery({ id })
+        await sqlpool.query(sql, values)
+        return { id } as StoredNote
       } catch (error) {
         console.error('Error deleting note:', error)
         throw error
       }
     },
+
     getNoteById: async ({ id }) => {
       try {
-        const result = await sqlpool.query(getNoteByIdQuery({ id }))
-        return result as unknown as StoredNote
+        const { sql, values } = getNoteByIdQuery({ id })
+        const [rows] = await sqlpool.query(sql, values)
+        const note = Array.isArray(rows) ? rows[0] : null
+        return note ?? null
       } catch (error) {
         console.error('Error fetching note by ID:', error)
         throw error
       }
     },
+
     stop: async () => {
       await sqlpool.end()
     }

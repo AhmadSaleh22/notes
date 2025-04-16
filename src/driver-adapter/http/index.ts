@@ -17,11 +17,23 @@ type GetHttpExpress = ({
 
 const getHttpExpress: GetHttpExpress = ({ app, config }) => {
   const expressApp = express()
-  const httpApp = getHttpAppExpress({ app })
+  expressApp.use(express.json())
+  expressApp.use(express.urlencoded({ extended: true }))
+  console.log('✅ Express initialized', app)
 
-  expressApp.use('/api', httpApp)
+  const httpApp = getHttpAppExpress({ app }) // ✅ Correctly calling the Express router
+  expressApp.use(httpApp) // ✅ Attaching the Express router correctly
+
+  /**
+   * Catch-all for undefined routes
+   */
+  expressApp.use((req, res) => {
+    res.status(404).json({ message: 'Not found' })
+  })
 
   const httpServer = getExpressServer({ app: expressApp, port: config.port ?? 3000 })
+
+  console.log('✅ Server started on port:', config.port ?? 3000)
 
   return {
     app: expressApp,

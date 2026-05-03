@@ -1,0 +1,33 @@
+{
+  "name": "supply-chain-graph",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Software supply-chain risk analysis on Neo4j: ingest npm package metadata + OSV vulnerabilities, then run blast-radius, maintainer-overlap and centrality analyses.",
+  "main": "dist/cli/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "scg": "ts-node --transpile-only src/cli/index.ts",
+    "ingest:packages": "ts-node --transpile-only src/cli/index.ts ingest packages",
+    "ingest:vulns": "ts-node --transpile-only src/cli/index.ts ingest vulns",
+    "schema:apply": "ts-node --transpile-only src/cli/index.ts schema apply",
+    "analyze:blast": "ts-node --transpile-only src/cli/index.ts analyze blast",
+    "analyze:central": "ts-node --transpile-only src/cli/index.ts analyze centrality",
+    "analyze:maintainers": "ts-node --transpile-only src/cli/index.ts analyze maintainers",
+    "test": "jest"
+  },
+  "dependencies": {
+    "commander": "^13.1.0",
+    "dotenv": "^16.4.7",
+    "neo4j-driver": "^5.27.0",
+    "p-limit": "^3.1.0",
+    "undici": "^7.2.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.13.4",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}
